@@ -27,3 +27,26 @@ python3 -m http.server 4321
 ```
 
 Then open http://localhost:4321.
+
+## Visitor tracking and conversion rate (Google Analytics 4)
+
+The page is ready for GA4. It sends nothing until you add your Measurement ID.
+
+1. Go to https://analytics.google.com, create an account and a **Web** property for your site address, and copy the **Measurement ID** (looks like `G-AB12CD34EF`).
+2. In `index.html`, near the top, replace `G-XXXXXXXXXX` in `window.PACE_GA_ID = 'G-XXXXXXXXXX';` with your ID. Commit and push; Netlify redeploys on its own.
+3. In GA4, open **Admin → Events** (or **Key events**) and mark `generate_lead` as a **key event**. That makes each waitlist sign-up count as a conversion.
+
+What gets tracked:
+
+| Event | When it fires |
+| --- | --- |
+| `page_view` | Every visit (automatic) |
+| `cta_click` | The header "Join the waitlist" button is tapped |
+| `demo_interact` | Someone drags the "spent today" slider |
+| `waitlist_start` | Someone taps into the email or mobile box |
+| `waitlist_invalid` | They try to submit a wrong email or number |
+| `generate_lead` | A sign-up succeeds (with `method` email/phone, `country`, `device`, `form_location` hero/footer) |
+
+**Conversion rate** = `generate_lead` count ÷ users. GA4 shows it under **Reports → Engagement → Key events** (the "Key event rate" column). For a step-by-step drop-off view, use **Explore → Funnel exploration** with the steps `page_view` → `waitlist_start` → `generate_lead`.
+
+Privacy: visitors in the EU, EEA, UK and Switzerland see a short "Can we count your visit?" bar and are only counted if they tap Allow. Everyone else is counted by default and can opt out with **Analytics choices** in the footer. Ads features are always off. To test events on your own computer, open `http://localhost:4321/?debug_analytics=1` and watch GA4's **Admin → DebugView**.
