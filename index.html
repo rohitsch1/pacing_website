@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pace — your daily spending number</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Pace sets your bills, EMIs and savings aside, then tells you each morning exactly how much you can spend today. Join the waitlist.">
+<meta property="og:title" content="Pace — know what you can spend today">
+<meta property="og:description" content="One number a day. Spend more today and Pace quietly adjusts tomorrow, so you never find out on the 28th that the money's gone.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0E3C47">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%230E3C47'/%3E%3Ccircle cx='24' cy='24' r='13' fill='none' stroke='%2324606F' stroke-width='5'/%3E%3Cpath d='M24 11 A13 13 0 0 1 36.4 28' fill='none' stroke='%236EE0AE' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: a dark "harbor" hero with a live phone demo, then paper-coloured bands that tell
+   the month-end story, how it works, and a closing waitlist band. */
+:root {
+  --harbor: #0E3C47; --harbor-mid: #155060; --harbor-line: #24606F;
+  --mint: #6EE0AE; --mint-soft: #D6F3E5; --coral: #FF9877; --coral-ink: #B4401F; --coral-soft: #FDE9E2;
+  --on-dark: #EEF6F5; --on-dark-muted: #A9C6CC;
+  --bg: #F7F5F0; --surface: #FFFFFF; --sand: #EAE6DD; --line: #E5E1D8;
+  --fg: #0E3C47; --muted: #4D5F63; --faint: #6C7C80; --ok: #1F7A4D; --ok-soft: #E3F3EA;
+  --amber: #8A5100; --amber-soft: #FFF1D6;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r-sm: 10px; --r-md: 16px; --r-lg: 24px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A2C34; --surface: #103A44; --sand: #15444F; --line: #22545F;
+    --fg: #EEF6F5; --muted: #A9C6CC; --faint: #85A6AD; --ok: #6EE0AE; --ok-soft: #154A45;
+    --coral-ink: #FFB49B; --coral-soft: #4A2A24; --amber: #F2C26B; --amber-soft: #3E3420; --mint-soft: #1B5049;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A2C34; --surface: #103A44; --sand: #15444F; --line: #22545F;
+  --fg: #EEF6F5; --muted: #A9C6CC; --faint: #85A6AD; --ok: #6EE0AE; --ok-soft: #154A45;
+  --coral-ink: #FFB49B; --coral-soft: #4A2A24; --amber: #F2C26B; --amber-soft: #3E3420; --mint-soft: #1B5049;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); overflow-x: hidden; }
+img, svg { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; text-wrap: balance; margin: 0; line-height: 1.08; }
+p { margin: 0; }
+.eyebrow { font: 600 12px/1.2 var(--body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+.num { font-variant-numeric: tabular-nums; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- top bar ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--harbor); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--harbor) 92%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.06); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--on-dark); font: 700 22px/1 var(--display); letter-spacing: -0.03em; }
+.brand svg { width: 30px; height: 30px; flex: none; }
+.top nav { display: flex; align-items: center; gap: 22px; }
+.top nav a.link { color: var(--on-dark-muted); text-decoration: none; font-size: 15px; font-weight: 500; }
+.top nav a.link:hover { color: var(--on-dark); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 0; font: 600 16px/1 var(--body); text-decoration: none; cursor: pointer; transition: transform .15s ease, background-color .15s ease, opacity .15s; }
+.btn:active { transform: scale(.98); }
+.btn-mint { background: var(--mint); color: #0B3038; }
+.btn-mint:hover { background: #86E9BD; }
+.btn-small { min-height: 40px; padding: 0 16px; font-size: 14px; }
+@media (max-width: 720px) { .top nav a.link { display: none; } }
+
+/* ---------- hero ---------- */
+.hero { background: var(--harbor); color: var(--on-dark); position: relative; overflow: hidden; }
+.hero::after { content: ""; position: absolute; right: -180px; top: -160px; width: 620px; height: 620px; border-radius: 50%; border: 70px solid rgba(110,224,174,.05); pointer-events: none; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 56px; align-items: center; padding-block: 72px 88px; position: relative; z-index: 1; }
+.hero .eyebrow { color: var(--mint); }
+.hero h1 { font-size: clamp(40px, 6.2vw, 68px); font-weight: 700; margin-top: 16px; }
+.hero h1 em { font-style: normal; color: var(--mint); }
+.hero .lede { margin-top: 20px; font-size: clamp(17px, 2vw, 19px); color: var(--on-dark-muted); max-width: 33em; }
+.hero .proof { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 22px; color: var(--on-dark-muted); font-size: 14px; }
+.hero .proof span { display: inline-flex; align-items: center; gap: 7px; }
+.hero .proof svg { width: 16px; height: 16px; color: var(--mint); flex: none; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 44px; padding-block: 44px 64px; } }
+
+/* ---------- waitlist form ---------- */
+.join { margin-top: 30px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: var(--r-lg); padding: 18px; max-width: 520px; }
+.join.light { background: var(--surface); border-color: var(--line); color: var(--fg); margin-inline: auto; box-shadow: 0 20px 50px -30px rgba(14,60,71,.35); }
+.seg { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.08); gap: 4px; }
+.join.light .seg { background: var(--sand); }
+.seg button { border: 0; background: transparent; color: inherit; font: 600 14px/1 var(--body); padding: 9px 16px; border-radius: 999px; cursor: pointer; opacity: .75; }
+.seg button[aria-pressed="true"] { background: var(--mint); color: #0B3038; opacity: 1; }
+.join .row { display: flex; gap: 10px; margin-top: 12px; }
+.field { flex: 1; min-width: 0; display: flex; align-items: center; height: 52px; border-radius: 14px; background: #fff; color: #0E3C47; border: 2px solid transparent; padding: 0 14px; gap: 8px; }
+.join.light .field { border-color: var(--line); background: var(--surface); color: var(--fg); }
+.field:focus-within { border-color: var(--mint); }
+.field[data-for="phone"] { position: relative; }
+.field .ccshow { flex: none; font-weight: 600; font-size: 15px; padding-right: 10px; border-right: 1px solid #E5E1D8; white-space: nowrap; }
+.field .ccshow::after { content: " ▾"; font-size: 11px; opacity: .6; }
+.field .cc { position: absolute; left: 0; top: 0; height: 100%; width: 96px; opacity: 0; cursor: pointer; font-size: 16px; }
+.field .cc:focus-visible + input, .field:has(.cc:focus-visible) .ccshow { text-decoration: underline; }
+.join.light .field .ccshow { border-right-color: var(--line); }
+.join.light .field .cc option, .field .cc option { color: #0E3C47; background: #fff; }
+.field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: 500 16px/1 var(--body); color: inherit; height: 100%; }
+.field input::placeholder { color: #8A9A9D; }
+.join .meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin-top: 12px; font-size: 13px; color: var(--on-dark-muted); }
+.join.light .meta { color: var(--muted); }
+.device { display: inline-flex; align-items: center; gap: 8px; }
+.device label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.device input { accent-color: var(--mint); width: 16px; height: 16px; margin: 0; }
+.join .err { color: var(--coral); font-size: 14px; margin-top: 10px; min-height: 0; }
+.join.light .err { color: var(--coral-ink); }
+.join .done { display: flex; gap: 14px; align-items: flex-start; padding: 6px 4px; }
+.join .done .tick { width: 40px; height: 40px; border-radius: 50%; background: var(--mint); color: #0B3038; display: grid; place-items: center; flex: none; }
+.join .done strong { font: 600 18px/1.3 var(--display); display: block; }
+.join .done p { color: var(--on-dark-muted); font-size: 14px; margin-top: 4px; }
+.join.light .done p { color: var(--muted); }
+.hp { position: absolute; left: -9999px; }
+@media (max-width: 520px) { .join .row { flex-direction: column; } .join .field { flex: none; } .join .btn { width: 100%; } .join { padding: 14px; } }
+
+/* ---------- phone demo ---------- */
+.demo { justify-self: center; width: 100%; max-width: 380px; }
+.phone { background: #F7F5F0; color: #0E3C47; border-radius: 40px; padding: 14px; border: 8px solid #08262D; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6); }
+.phone .bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px 4px; font-size: 12px; color: #4D5F63; }
+.phone .hello { padding: 6px 10px 0; }
+.phone .hello b { display: block; font: 600 18px/1.2 var(--display); }
+.phone .hello span { font-size: 12px; color: #6C7C80; }
+.ringbox { position: relative; width: 100%; max-width: 250px; aspect-ratio: 1; margin: 12px auto 4px; }
+.ringbox svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ringbox .arc { transition: stroke-dashoffset .35s ease, stroke .25s; }
+.ringbox .center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ringbox .center small { font: 600 11px/1 var(--body); letter-spacing: .12em; color: #6C7C80; }
+.ringbox .center .big { font: 700 44px/1.05 var(--display); letter-spacing: -0.03em; margin-top: 6px; }
+.ringbox .center .pill { justify-self: center; margin-top: 8px; font: 600 12px/1 var(--body); padding: 6px 10px; border-radius: 999px; background: #E3F3EA; color: #1F7A4D; }
+.ringbox .center .pill.over { background: #FDE9E2; color: #B4401F; }
+.ringbox .center .pill.tight { background: #FFF1D6; color: #8A5100; }
+.try { background: #fff; border: 1px solid #E5E1D8; border-radius: 18px; padding: 14px; margin-top: 8px; }
+.try label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600; color: #4D5F63; }
+.try label output { font: 700 18px/1 var(--display); color: #0E3C47; }
+.try input[type=range] { width: 100%; margin: 12px 0 4px; accent-color: #0E3C47; height: 28px; }
+.next { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.next div { background: #fff; border: 1px solid #E5E1D8; border-radius: 14px; padding: 10px 12px; }
+.next small { display: block; font-size: 11px; color: #6C7C80; font-weight: 600; letter-spacing: .04em; }
+.next b { font: 700 20px/1.2 var(--display); }
+.reply { margin-top: 10px; font-size: 13px; line-height: 1.45; background: #0E3C47; color: #EEF6F5; padding: 10px 12px; border-radius: 14px 14px 14px 4px; }
+.demo .caption { text-align: center; color: var(--on-dark-muted); font-size: 13px; margin-top: 14px; }
+
+/* ---------- sections ---------- */
+section.band { padding-block: 96px; }
+.head { max-width: 680px; }
+.head h2 { font-size: clamp(32px, 4.4vw, 48px); margin-top: 12px; }
+.head p { margin-top: 16px; color: var(--muted); font-size: 18px; }
+@media (max-width: 720px) { section.band { padding-block: 64px; } }
+
+/* month comparison */
+.months { display: grid; gap: 18px; margin-top: 44px; }
+.month { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px; min-width: 0; }
+.month header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: baseline; }
+.month h3 { font-size: 20px; }
+.month header span { font-size: 14px; color: var(--muted); }
+.days { display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); gap: 4px; margin-top: 18px; }
+.day { aspect-ratio: .7; border-radius: 6px; background: var(--sand); position: relative; }
+.day.we { background: color-mix(in srgb, var(--sand) 70%, var(--line)); }
+.old .day.late { background: var(--coral); }
+.pace .day { background: var(--mint-soft); }
+.pace .day.hit { background: var(--coral); }
+.pace .day.adj { background: color-mix(in srgb, var(--mint) 55%, var(--mint-soft)); }
+.pace .day.today { outline: 2px solid var(--fg); outline-offset: 1px; }
+.axis { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--faint); }
+.note { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; padding: 12px 14px; border-radius: 14px; font-size: 15px; }
+.note b { font-family: var(--display); }
+.old .note { background: var(--coral-soft); color: var(--coral-ink); }
+.pace .note { background: var(--ok-soft); color: var(--ok); }
+.note svg { width: 20px; height: 20px; flex: none; margin-top: 2px; }
+@media (max-width: 560px) { .days { gap: 2px; } .day { border-radius: 3px; } .month { padding: 16px; } }
+
+/* how it works */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 44px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.step .n { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--fg); color: var(--bg); font: 700 16px/1 var(--display); }
+.step h3 { font-size: 21px; }
+.step p { color: var(--muted); }
+.box { margin-top: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font-size: 14px; }
+.box .ln { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; }
+.box .ln + .ln { border-top: 1px dashed var(--line); }
+.box .ln.tot { font-weight: 700; color: var(--ok); }
+.box .ln span:last-child { font-variant-numeric: tabular-nums; }
+.week { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 4px; align-items: end; height: 92px; }
+.week div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; font-size: 11px; color: var(--faint); }
+.week i { display: block; width: 100%; border-radius: 6px 6px 3px 3px; background: var(--mint-soft); }
+.week .w i { background: var(--mint); }
+.share { display: flex; align-items: center; gap: 10px; }
+.share .app { width: 38px; height: 38px; border-radius: 10px; background: var(--fg); color: var(--bg); display: grid; place-items: center; font: 700 12px/1 var(--display); flex: none; }
+.share .arrow { color: var(--faint); }
+@media (max-width: 900px) { .steps { grid-template-columns: minmax(0,1fr); } }
+
+/* features */
+.feat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 44px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.feat > div { background: var(--surface); padding: 26px; min-width: 0; }
+.feat h3 { font-size: 18px; display: flex; align-items: center; gap: 10px; }
+.feat h3 svg { width: 22px; height: 22px; color: var(--ok); flex: none; }
+.feat p { color: var(--muted); margin-top: 8px; font-size: 15px; }
+@media (max-width: 900px) { .feat { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 560px) { .feat { grid-template-columns: minmax(0,1fr); } }
+
+/* privacy band */
+.privacy { background: var(--harbor); color: var(--on-dark); border-radius: 32px; padding: clamp(28px, 5vw, 56px); display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 32px; align-items: center; }
+.privacy h2 { font-size: clamp(28px, 3.6vw, 40px); }
+.privacy p { color: var(--on-dark-muted); margin-top: 14px; font-size: 17px; }
+.privacy ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.privacy li { display: flex; gap: 12px; align-items: flex-start; background: rgba(255,255,255,.06); border-radius: 14px; padding: 12px 14px; font-size: 15px; }
+.privacy li svg { width: 20px; height: 20px; color: var(--mint); flex: none; margin-top: 2px; }
+@media (max-width: 820px) { .privacy { grid-template-columns: minmax(0,1fr); } }
+
+/* faq */
+.faq { margin-top: 36px; display: grid; gap: 10px; max-width: 780px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 0 20px; }
+.faq summary { cursor: pointer; list-style: none; padding: 18px 0; font: 600 17px/1.35 var(--display); display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font: 500 22px/1 var(--body); color: var(--faint); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { color: var(--muted); padding-bottom: 18px; }
+
+/* final CTA */
+.final { text-align: center; }
+.final h2 { font-size: clamp(34px, 5vw, 56px); }
+.final > .wrap > p { color: var(--muted); font-size: 18px; margin: 16px auto 0; max-width: 34em; }
+.final .join { text-align: left; margin-top: 30px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px)); color: var(--faint); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; }
+footer .brand { color: var(--fg); font-size: 18px; }
+footer .brand svg { width: 24px; height: 24px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Pace home">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#0B3038"/><circle cx="24" cy="24" r="13" fill="none" stroke="#24606F" stroke-width="5"/><path d="M24 11 A13 13 0 0 1 36.4 28" fill="none" stroke="#6EE0AE" stroke-width="5" stroke-linecap="round"/></svg>
+      pace
+    </a>
+    <nav aria-label="Main">
+      <a class="link" href="#problem">Why Pace</a>
+      <a class="link" href="#how">How it works</a>
+      <a class="link" href="#faq">FAQ</a>
+      <a class="btn btn-mint btn-small" href="#join">Join the waitlist</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Coming soon to Android &amp; iPhone</p>
+        <h1 id="hero-title">Know what you can spend <em>today</em>. Not on the 28th.</h1>
+        <p class="lede">Pace takes your salary, <span data-intl="sets aside rent, loan payments, bills and savings,">sets aside rent, EMIs, bills and savings,</span> and turns what's left into one number for each day. Spend a little more today and tomorrow quietly adjusts, so the month never surprises you at the end.</p>
+
+        <form class="join" id="join" name="waitlist" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="company" novalidate data-source="hero">
+          <input type="hidden" name="form-name" value="waitlist">
+          <input type="hidden" name="source" value="hero">
+          <input type="hidden" name="contact" value="email">
+        <input type="hidden" name="country" value="">
+          <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+          <div class="body">
+            <div class="seg" role="group" aria-label="How should we reach you?">
+              <button type="button" data-mode="email" aria-pressed="true">Email</button>
+              <button type="button" data-mode="phone" aria-pressed="false">Mobile number</button>
+            </div>
+            <div class="row">
+              <div class="field" data-for="email">
+                <label class="sr" for="hero-email">Email address</label>
+                <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+              </div>
+              <div class="field" data-for="phone" hidden>
+                <label class="sr" for="hero-cc">Country code</label>
+                <select class="cc" id="hero-cc" name="dial"></select>
+                <label class="sr" for="hero-phone">Mobile number</label>
+                <input id="hero-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="98765 43210" maxlength="18">
+              </div>
+              <button class="btn btn-mint" type="submit">Join the waitlist</button>
+            </div>
+            <div class="meta">
+              <span class="device" role="radiogroup" aria-label="Your phone">
+                <span>I use</span>
+                <label><input type="radio" name="device" value="android" checked> Android</label>
+                <label><input type="radio" name="device" value="iphone"> iPhone</label>
+              </span>
+              <span>No spam. One message when it's ready.</span>
+            </div>
+            <p class="err" role="alert"></p>
+          </div>
+        </form>
+
+        <div class="proof">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No bank login</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-intl="Works with any bank or payment app">Works with GPay, PhonePe, Paytm</span></span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Your data stays on your phone</span>
+        </div>
+      </div>
+
+      <!-- Live demo: same maths as the app -->
+      <div class="demo" aria-labelledby="demo-title">
+        <div class="phone">
+          <div class="bar"><span>9:41</span><span>Sat 14 Nov</span></div>
+          <div class="hello"><b id="demo-title">Morning, Asha</b><span>Saturday · day off · 16 days to payday</span></div>
+          <div class="ringbox">
+            <svg viewBox="0 0 200 200" aria-hidden="true">
+              <circle cx="100" cy="100" r="86" fill="none" stroke="#EFEBE3" stroke-width="16"/>
+              <circle class="arc" id="arc" cx="100" cy="100" r="86" fill="none" stroke="#6EE0AE" stroke-width="16" stroke-linecap="round" stroke-dasharray="540.35" stroke-dashoffset="0"/>
+            </svg>
+            <div class="center">
+              <small id="ring-label">YOU CAN SPEND</small>
+              <div class="big num" id="left">₹1,011</div>
+              <span class="pill" id="status">more today</span>
+            </div>
+          </div>
+          <div class="try">
+            <label for="spent">Try it: spent today <output id="spent-out" class="num">₹600</output></label>
+            <input id="spent" type="range" min="0" max="3000" step="50" value="600">
+          </div>
+          <div class="next">
+            <div><small>TOMORROW · SUN</small><b class="num" id="sun">₹1,011</b></div>
+            <div><small>MONDAY ONWARDS</small><b class="num" id="mon">₹632</b></div>
+          </div>
+          <p class="reply" id="reply">All good. Weekends get a bigger share because days off usually cost more.</p>
+        </div>
+        <p class="caption">Drag the slider. This is how Pace adjusts the days ahead.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="band" id="problem" aria-labelledby="problem-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">The month-end surprise</p>
+        <h2 id="problem-title">Budget apps tell you after the money's gone. Pace tells you the same day.</h2>
+        <p>A monthly budget only says "you overspent" once it's too late to change anything. Pace checks every day against a daily limit, so you see it on day 4, while there are still 26 days to fix it.</p>
+      </div>
+
+      <div class="months">
+        <article class="month old" aria-label="A month with a monthly budget">
+          <header><h3>With a monthly budget</h3><span>One big number. One late warning.</span></header>
+          <div class="days" id="old-days" aria-hidden="true"></div>
+          <div class="axis" aria-hidden="true"><span>Payday</span><span>Day 15</span><span>Day 30</span></div>
+          <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5m0 3.5v.01M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span><b>Day 26:</b> "You've spent <span data-amt="6200">₹6,200</span> more than planned." Four days left, and the money's already gone.</span></p>
+        </article>
+        <article class="month pace" aria-label="The same month with Pace">
+          <header><h3>With Pace</h3><span>A number every morning. Small fixes as you go.</span></header>
+          <div class="days" id="pace-days" aria-hidden="true"></div>
+          <div class="axis" aria-hidden="true"><span>Payday</span><span>Day 15</span><span>Day 30</span></div>
+          <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Day 4:</b> "You went <span data-amt="900">₹900</span> over today. I've spread it out, so every day left is <span data-amt="35">₹35</span> lighter." You end the month on plan.</span></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="band" id="how" aria-labelledby="how-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">Three minutes to set up. Then one number a day.</h2>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <span class="n">1</span>
+          <h3>Bills and savings go aside first</h3>
+          <p data-intl="Tell Pace your take-home pay, rent, loan payments, bills and how much you want to save. Rough numbers are fine.">Tell Pace your take-home pay, rent, EMIs, bills and how much you want to save. Rough numbers are fine.</p>
+          <div class="box num">
+            <div class="ln"><span>Salary</span><span data-amt="80000">₹80,000</span></div>
+            <div class="ln"><span data-intl="Rent, bills, loans">Rent, bills, EMIs</span><span data-amt="-33000">−₹33,000</span></div>
+            <div class="ln"><span>Groceries, fuel</span><span data-amt="-12000">−₹12,000</span></div>
+            <div class="ln"><span>Savings</span><span data-amt="-10000">−₹10,000</span></div>
+            <div class="ln tot"><span>Free to spend</span><span data-amt="25000">₹25,000</span></div>
+          </div>
+        </article>
+        <article class="step">
+          <span class="n">2</span>
+          <h3>What's left becomes a daily number</h3>
+          <p>Shaped by your real week. Office days get one share, weekends get a bigger one, and your Wednesday badminton is kept aside.</p>
+          <div class="box">
+            <div class="week" aria-label="Daily limits across a week: weekend days get about 1.6 times a weekday share">
+              <div><i style="height:40%"></i>Mon</div><div><i style="height:40%"></i>Tue</div><div><i style="height:53%"></i>Wed</div><div><i style="height:40%"></i>Thu</div><div><i style="height:40%"></i>Fri</div><div class="w"><i style="height:64%"></i>Sat</div><div class="w"><i style="height:64%"></i>Sun</div>
+            </div>
+          </div>
+        </article>
+        <article class="step">
+          <span class="n">3</span>
+          <h3>Paid in another app? Share it to Pace</h3>
+          <p data-intl="After paying in your bank or payment app, tap Share on the receipt screen and pick Pace. It reads the amount and adds it in one tap. No typing.">After paying on GPay or PhonePe, tap Share on the payment screen and pick Pace. It reads the amount and adds it in one tap. No typing.</p>
+          <div class="box share">
+            <span class="app" data-intl="PAY">UPI</span><span class="arrow">→</span><span>Share</span><span class="arrow">→</span><span class="app" style="background:var(--mint);color:#0B3038">P</span>
+            <span style="margin-left:auto;font-weight:600" class="num"><span data-amt="380">₹380</span> added</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="band" aria-labelledby="feat-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Built for how money really moves</p>
+        <h2 id="feat-title">The small things a monthly budget misses</h2>
+      </div>
+      <div class="feat">
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4m8-4v4"/></svg>Your payday, not the 1st</h3><p>Budgets run from one payday to the next, monthly, every two weeks or weekly.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Overspend? Tomorrow adjusts</h3><p>No red alerts and no guilt. The extra is spread over the days left.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>Paybacks and refunds count</h3><p>A friend pays you back for dinner? Every day left gets a little more.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span data-intl="Loans that end on time">EMIs that end on time</span></h3><p>Loans count down and drop off your plan the month they're paid off.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>Goals that fill themselves</h3><p>A new phone by May? Pace sets the right amount aside each month.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>A nudge at 8:30</h3><p>Your number each morning and a 5-second check-in at night. Off whenever you like.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="band" aria-labelledby="privacy-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="privacy">
+        <div>
+          <h2 id="privacy-title">We never ask for your bank password.</h2>
+          <p>Pace doesn't connect to your bank or read your SMS. You type rough amounts once, and share payment screens when you want to. Everything stays on your phone.</p>
+        </div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-intl="No bank login, card number or PIN, ever">No UPI PIN, card number or net-banking login, ever</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Receipts are read on the phone, not uploaded</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Back up or export your data whenever you choose</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="band" id="faq" aria-labelledby="faq-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><p class="eyebrow">Questions</p><h2 id="faq-title">Before you join</h2></div>
+      <div class="faq">
+        <details><summary>When will Pace launch?</summary><p>We're finishing testing now. The Android app comes first on Google Play, with iPhone after. Pace works in any country and currency. Everyone on the waitlist hears first, with one message, no newsletter.</p></details>
+        <details><summary>How is this different from a budgeting app?</summary><p>Most budgeting apps show a monthly total and warn you when it's used up, usually near the end of the month. Pace gives you a daily limit, so you know on the day itself, and it re-spreads any overspend across the days left.</p></details>
+        <details><summary>Does Pace connect to my bank account?</summary><p>No. You enter rough amounts for income and bills, and add spending by typing it or sharing a payment screen from your <span data-intl="bank or payment app">UPI app</span>. We never ask for bank logins, PINs or card details.</p></details>
+        <details><summary>Will it cost anything?</summary><p>Pace is free while it's in early access, including every Plus feature. People on the waitlist get early access first.</p></details>
+        <details><summary>What do you do with my email or number?</summary><p>We use it only to tell you when Pace is ready to download. We don't share it or sell it, and you can ask us to delete it at any time.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="band final" aria-labelledby="final-title" style="padding-top:0">
+    <div class="wrap">
+      <h2 id="final-title">Start next month knowing your number.</h2>
+      <p>Join the waitlist and be first in line when Pace opens on Android and iPhone.</p>
+      <form class="join light" name="waitlist" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="company" novalidate data-source="footer">
+        <input type="hidden" name="form-name" value="waitlist">
+        <input type="hidden" name="source" value="footer">
+        <input type="hidden" name="contact" value="email">
+        <input type="hidden" name="country" value="">
+        <p class="hp"><label>Leave this empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+        <div class="body">
+          <div class="seg" role="group" aria-label="How should we reach you?">
+            <button type="button" data-mode="email" aria-pressed="true">Email</button>
+            <button type="button" data-mode="phone" aria-pressed="false">Mobile number</button>
+          </div>
+          <div class="row">
+            <div class="field" data-for="email">
+              <label class="sr" for="foot-email">Email address</label>
+              <input id="foot-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="field" data-for="phone" hidden>
+              <label class="sr" for="foot-cc">Country code</label>
+              <select class="cc" id="foot-cc" name="dial"></select>
+              <label class="sr" for="foot-phone">Mobile number</label>
+              <input id="foot-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="98765 43210" maxlength="18">
+            </div>
+            <button class="btn btn-mint" type="submit">Join the waitlist</button>
+          </div>
+          <div class="meta">
+            <span class="device" role="radiogroup" aria-label="Your phone">
+              <span>I use</span>
+              <label><input type="radio" name="device" value="android" checked> Android</label>
+              <label><input type="radio" name="device" value="iphone"> iPhone</label>
+            </span>
+            <span>No spam. One message when it's ready.</span>
+          </div>
+          <p class="err" role="alert"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#0E3C47"/><circle cx="24" cy="24" r="13" fill="none" stroke="#24606F" stroke-width="5"/><path d="M24 11 A13 13 0 0 1 36.4 28" fill="none" stroke="#6EE0AE" stroke-width="5" stroke-linecap="round"/></svg>pace</a>
+    <span>One number a day. A month that works.</span>
+    <span>© <span id="yr">2026</span> Pace</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ---------- where is the visitor? (time zone first, then browser language) ---------- */
+  var COUNTRIES = [
+    ['AF','Afghanistan','93'],['AL','Albania','355'],['DZ','Algeria','213'],['AR','Argentina','54'],['AM','Armenia','374'],['AU','Australia','61'],['AT','Austria','43'],['AZ','Azerbaijan','994'],
+    ['BH','Bahrain','973'],['BD','Bangladesh','880'],['BY','Belarus','375'],['BE','Belgium','32'],['BT','Bhutan','975'],['BO','Bolivia','591'],['BA','Bosnia and Herzegovina','387'],['BW','Botswana','267'],['BR','Brazil','55'],['BN','Brunei','673'],['BG','Bulgaria','359'],
+    ['KH','Cambodia','855'],['CM','Cameroon','237'],['CA','Canada','1'],['CL','Chile','56'],['CN','China','86'],['CO','Colombia','57'],['CR','Costa Rica','506'],['HR','Croatia','385'],['CY','Cyprus','357'],['CZ','Czechia','420'],
+    ['DK','Denmark','45'],['DO','Dominican Republic','1'],['EC','Ecuador','593'],['EG','Egypt','20'],['EE','Estonia','372'],['ET','Ethiopia','251'],['FJ','Fiji','679'],['FI','Finland','358'],['FR','France','33'],
+    ['GE','Georgia','995'],['DE','Germany','49'],['GH','Ghana','233'],['GR','Greece','30'],['GT','Guatemala','502'],['HK','Hong Kong','852'],['HU','Hungary','36'],['IS','Iceland','354'],['IN','India','91'],['ID','Indonesia','62'],['IQ','Iraq','964'],['IE','Ireland','353'],['IL','Israel','972'],['IT','Italy','39'],
+    ['JM','Jamaica','1'],['JP','Japan','81'],['JO','Jordan','962'],['KZ','Kazakhstan','7'],['KE','Kenya','254'],['KW','Kuwait','965'],['KG','Kyrgyzstan','996'],['LA','Laos','856'],['LV','Latvia','371'],['LB','Lebanon','961'],['LT','Lithuania','370'],['LU','Luxembourg','352'],
+    ['MO','Macau','853'],['MY','Malaysia','60'],['MV','Maldives','960'],['MT','Malta','356'],['MU','Mauritius','230'],['MX','Mexico','52'],['MD','Moldova','373'],['MN','Mongolia','976'],['ME','Montenegro','382'],['MA','Morocco','212'],['MM','Myanmar','95'],
+    ['NA','Namibia','264'],['NP','Nepal','977'],['NL','Netherlands','31'],['NZ','New Zealand','64'],['NG','Nigeria','234'],['MK','North Macedonia','389'],['NO','Norway','47'],['OM','Oman','968'],
+    ['PK','Pakistan','92'],['PA','Panama','507'],['PY','Paraguay','595'],['PE','Peru','51'],['PH','Philippines','63'],['PL','Poland','48'],['PT','Portugal','351'],['PR','Puerto Rico','1'],['QA','Qatar','974'],
+    ['RO','Romania','40'],['RU','Russia','7'],['RW','Rwanda','250'],['SA','Saudi Arabia','966'],['SN','Senegal','221'],['RS','Serbia','381'],['SG','Singapore','65'],['SK','Slovakia','421'],['SI','Slovenia','386'],['ZA','South Africa','27'],['KR','South Korea','82'],['ES','Spain','34'],['LK','Sri Lanka','94'],['SE','Sweden','46'],['CH','Switzerland','41'],
+    ['TW','Taiwan','886'],['TJ','Tajikistan','992'],['TZ','Tanzania','255'],['TH','Thailand','66'],['TT','Trinidad and Tobago','1'],['TN','Tunisia','216'],['TR','Türkiye','90'],['UG','Uganda','256'],['UA','Ukraine','380'],['AE','United Arab Emirates','971'],['GB','United Kingdom','44'],['US','United States','1'],['UY','Uruguay','598'],['UZ','Uzbekistan','998'],
+    ['VE','Venezuela','58'],['VN','Vietnam','84'],['ZM','Zambia','260'],['ZW','Zimbabwe','263']
+  ];
+  var BY_ISO = {}; COUNTRIES.forEach(function (c) { BY_ISO[c[0]] = c; });
+  var TZ = {
+    'Asia/Kolkata':'IN','Asia/Calcutta':'IN','Asia/Dubai':'AE','Asia/Singapore':'SG','Asia/Karachi':'PK','Asia/Dhaka':'BD','Asia/Kathmandu':'NP','Asia/Katmandu':'NP','Asia/Colombo':'LK',
+    'Asia/Riyadh':'SA','Asia/Qatar':'QA','Asia/Kuwait':'KW','Asia/Bahrain':'BH','Asia/Muscat':'OM','Asia/Tokyo':'JP','Asia/Shanghai':'CN','Asia/Hong_Kong':'HK','Asia/Seoul':'KR',
+    'Asia/Kuala_Lumpur':'MY','Asia/Jakarta':'ID','Asia/Manila':'PH','Asia/Bangkok':'TH','Asia/Ho_Chi_Minh':'VN','Asia/Taipei':'TW','Asia/Jerusalem':'IL','Europe/London':'GB',
+    'Europe/Dublin':'IE','Europe/Paris':'FR','Europe/Berlin':'DE','Europe/Madrid':'ES','Europe/Rome':'IT','Europe/Amsterdam':'NL','Europe/Brussels':'BE','Europe/Zurich':'CH',
+    'Europe/Vienna':'AT','Europe/Stockholm':'SE','Europe/Oslo':'NO','Europe/Copenhagen':'DK','Europe/Helsinki':'FI','Europe/Warsaw':'PL','Europe/Lisbon':'PT','Europe/Athens':'GR',
+    'Europe/Istanbul':'TR','Europe/Moscow':'RU','Europe/Kiev':'UA','Europe/Kyiv':'UA','Europe/Prague':'CZ','Europe/Budapest':'HU','Europe/Bucharest':'RO','Africa/Cairo':'EG',
+    'Africa/Lagos':'NG','Africa/Nairobi':'KE','Africa/Johannesburg':'ZA','Africa/Casablanca':'MA','Africa/Accra':'GH','America/Toronto':'CA','America/Vancouver':'CA',
+    'America/Edmonton':'CA','America/Winnipeg':'CA','America/Halifax':'CA','America/Mexico_City':'MX','America/Sao_Paulo':'BR','America/Argentina/Buenos_Aires':'AR',
+    'America/Bogota':'CO','America/Lima':'PE','America/Santiago':'CL','Australia/Sydney':'AU','Australia/Melbourne':'AU','Australia/Brisbane':'AU','Australia/Perth':'AU',
+    'Australia/Adelaide':'AU','Pacific/Auckland':'NZ'
+  };
+  function detect() {
+    var q = (new URLSearchParams(location.search).get('country') || '').toUpperCase();
+    if (BY_ISO[q]) return q; // e.g. ?country=GB to preview another country
+    var tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    if (TZ[tz]) return TZ[tz];
+    if (/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Indiana|Kentucky|Boise)/.test(tz) || tz.indexOf('Pacific/Honolulu') === 0) return 'US';
+    var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+    for (var k = 0; k < langs.length; k++) { var m = /[-_]([A-Za-z]{2})$/.exec(langs[k]); if (m && BY_ISO[m[1].toUpperCase()]) return m[1].toUpperCase(); }
+    return 'US';
+  }
+  var REGION = detect();
+  var INDIA = REGION === 'IN';
+
+  /* ---------- currency + plausible local amounts (scaled from a typical take-home pay) ---------- */
+  var CUR = { IN:'INR', US:'USD', PR:'USD', EC:'USD', CA:'CAD', GB:'GBP', AU:'AUD', NZ:'NZD', AE:'AED', SA:'SAR', QA:'QAR', KW:'KWD', BH:'BHD', OM:'OMR', SG:'SGD', HK:'HKD',
+    JP:'JPY', CN:'CNY', KR:'KRW', MY:'MYR', ID:'IDR', PH:'PHP', TH:'THB', VN:'VND', PK:'PKR', BD:'BDT', LK:'LKR', NP:'NPR', ZA:'ZAR', NG:'NGN', KE:'KES', EG:'EGP', BR:'BRL', MX:'MXN',
+    CH:'CHF', SE:'SEK', NO:'NOK', DK:'DKK', PL:'PLN', TR:'TRY', IL:'ILS', CZ:'CZK', HU:'HUF', RO:'RON' };
+  ['AT','BE','CY','EE','FI','FR','DE','GR','IE','IT','LV','LT','LU','MT','NL','PT','SK','SI','ES','HR'].forEach(function (c) { CUR[c] = 'EUR'; });
+  var PAY = { INR:80000, USD:5000, EUR:3000, GBP:2800, CAD:5000, AUD:6000, NZD:5500, AED:15000, SAR:12000, QAR:13000, KWD:900, BHD:900, OMR:900, SGD:5000, HKD:25000,
+    JPY:330000, CNY:12000, KRW:3500000, MYR:6000, IDR:10000000, PHP:40000, THB:35000, VND:15000000, PKR:150000, BDT:60000, LKR:150000, NPR:80000, ZAR:25000, NGN:400000,
+    KES:80000, EGP:20000, BRL:5000, MXN:20000, CHF:6000, SEK:30000, NOK:35000, DKK:25000, PLN:7000, TRY:40000, ILS:12000, CZK:45000, HUF:550000, RON:7000 };
+  var CURRENCY = PAY[CUR[REGION]] ? CUR[REGION] : 'USD';
+  var F = PAY[CURRENCY] / 80000;
+  var LOCALE = INDIA ? 'en-IN' : (navigator.language || 'en-US');
+  var nf; try { nf = new Intl.NumberFormat(LOCALE, { style: 'currency', currency: CURRENCY, maximumFractionDigits: 0, minimumFractionDigits: 0 }); } catch (e) { nf = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }); }
+  function nice(x) { var a = Math.abs(x); if (a < 100) return Math.round(x); var mag = Math.pow(10, Math.floor(Math.log10(a)) - 1); return Math.round(x / mag) * mag; }
+  function money(n) { return (n < 0 ? '−' : '') + nf.format(Math.abs(Math.round(n))); }
+  document.querySelectorAll('[data-amt]').forEach(function (el) { el.textContent = money(nice(+el.dataset.amt * F)); });
+  if (!INDIA) {
+    document.querySelectorAll('[data-intl]').forEach(function (el) { el.textContent = el.dataset.intl; });
+  }
+
+  /* ---------- live demo (same rules as the app) ----------
+     Flexible money left on Saturday, 16 days to payday: 11 office days (weight 1) and
+     5 days off (weight 1.6). Spending today is taken out; the rest is re-spread. */
+  var LEFT = nice(12000 * F), WORK = 11, OFF = 5, W = 1.6;
+  var todayLimit = Math.round(LEFT / (WORK + OFF * W) * W);
+  var C = 2 * Math.PI * 86;
+  var slider = document.getElementById('spent');
+  slider.max = String(nice(LEFT / 4));
+  slider.step = String(Math.max(1, nice(LEFT / 240)));
+  slider.value = String(nice(LEFT * 0.05));
+  function render() {
+    var s = +slider.value;
+    var left = todayLimit - s;
+    var rest = Math.max(0, LEFT - s);
+    var unit = rest / (WORK + (OFF - 1) * W);
+    var unit0 = LEFT / (WORK + OFF * W);
+    document.getElementById('spent-out').textContent = money(s);
+    document.getElementById('left').textContent = money(Math.abs(left));
+    document.getElementById('ring-label').textContent = left >= 0 ? 'YOU CAN SPEND' : 'OVER TODAY BY';
+    var st = document.getElementById('status');
+    st.className = 'pill' + (left < 0 ? ' over' : left < todayLimit * 0.2 ? ' tight' : '');
+    st.textContent = left < 0 ? 'spread over 15 days' : left < todayLimit * 0.2 ? 'getting tight' : 'more today';
+    var arc = document.getElementById('arc');
+    arc.style.strokeDashoffset = String(left < 0 ? 0 : C * (1 - left / todayLimit));
+    arc.style.stroke = left < 0 ? '#FF9877' : left < todayLimit * 0.2 ? '#E8B04B' : '#6EE0AE';
+    document.getElementById('sun').textContent = money(unit * W);
+    document.getElementById('mon').textContent = money(unit);
+    var drop = Math.max(1, Math.round(unit0 - unit));
+    document.getElementById('reply').textContent =
+      left < 0 ? 'You went ' + money(-left) + ' over today. No stress: I spread it out, so each office day is ' + money(drop) + ' lighter until payday.'
+      : s === 0 ? 'All good. Weekends get a bigger share because days off usually cost more.'
+      : 'Nice. ' + money(left) + ' still free today. Anything you don’t spend rolls into the days ahead.';
+  }
+  slider.addEventListener('input', render);
+  render();
+
+  /* ---------- month strips ---------- */
+  function strip(id, fn) {
+    var el = document.getElementById(id);
+    for (var d = 1; d <= 30; d++) {
+      var i = document.createElement('div');
+      i.className = 'day ' + fn(d);
+      el.appendChild(i);
+    }
+  }
+  strip('old-days', function (d) { return (d >= 26 ? 'late' : '') + ((d % 7 === 6 || d % 7 === 0) ? ' we' : ''); });
+  strip('pace-days', function (d) { return d === 4 ? 'hit today' : d > 4 && d <= 9 ? 'adj' : ''; });
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---------- waitlist forms ---------- */
+  var LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) || location.protocol === 'file:';
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var SAMPLE = { IN:'98765 43210', US:'201 555 0123', CA:'416 555 0123', GB:'7400 123456', AU:'412 345 678', AE:'50 123 4567', SG:'8123 4567' };
+  var joined = false;
+  try { joined = localStorage.getItem('pace-waitlist') === '1'; } catch (e) {}
+
+  function digitsFor(iso, raw) {
+    var d = raw.replace(/\D/g, '');
+    var dial = BY_ISO[iso][2];
+    if (d.indexOf(dial) === 0 && d.length > dial.length + 6) d = d.slice(dial.length); // pasted with country code
+    if (iso !== 'IT') d = d.replace(/^0+/, ''); // drop the trunk 0 (07400… → 7400…)
+    return d;
+  }
+  function validPhone(iso, d) {
+    if (iso === 'IN') return /^[6-9]\d{9}$/.test(d);
+    if (BY_ISO[iso][2] === '1') return /^[2-9]\d{9}$/.test(d);
+    return d.length >= 6 && d.length + BY_ISO[iso][2].length <= 15;
+  }
+
+  function showDone(form, how) {
+    form.querySelector('.body').innerHTML =
+      '<div class="done"><span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
+      '<div><strong>You’re on the list.</strong><p>' + (how || 'We’ll message you once, when Pace is ready to download.') + '</p></div></div>';
+  }
+
+  document.querySelectorAll('form.join').forEach(function (form) {
+    var mode = 'email';
+    var err = form.querySelector('.err');
+    if (joined) { showDone(form); return; }
+    var cc = form.querySelector('select.cc');
+    var phone = form.querySelector('input[name="phone"]');
+    COUNTRIES.slice().sort(function (a, b) { return a[1].localeCompare(b[1]); }).forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = c[0]; o.textContent = c[1] + ' (+' + c[2] + ')';
+      cc.appendChild(o);
+    });
+    cc.value = BY_ISO[REGION] ? REGION : 'US';
+    var show = document.createElement('span');
+    show.className = 'ccshow'; show.setAttribute('aria-hidden', 'true');
+    cc.parentNode.insertBefore(show, cc);
+    function syncCc() {
+      var c = BY_ISO[cc.value];
+      show.textContent = c[0] + ' +' + c[2];
+      phone.placeholder = SAMPLE[c[0]] || 'Mobile number';
+      form.querySelector('input[name="country"]').value = c[0];
+    }
+    cc.addEventListener('change', function () { syncCc(); err.textContent = ''; });
+    syncCc();
+
+    form.querySelectorAll('.seg button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        mode = b.dataset.mode;
+        form.querySelectorAll('.seg button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        form.querySelectorAll('.field').forEach(function (f) { f.hidden = f.dataset.for !== mode; });
+        err.textContent = '';
+        form.querySelector('.field[data-for="' + mode + '"] input').focus();
+      });
+    });
+    phone.addEventListener('input', function () {
+      phone.value = phone.value.replace(/[^\d\s()+-]/g, '');
+    });
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      err.textContent = '';
+      var email = form.querySelector('input[name="email"]');
+      var iso = cc.value;
+      var digits = digitsFor(iso, phone.value);
+      if (mode === 'email' && !EMAIL.test(email.value.trim())) { err.textContent = 'Enter an email address like name@example.com.'; email.focus(); return; }
+      if (mode === 'phone' && !validPhone(iso, digits)) {
+        err.textContent = iso === 'IN' ? 'Enter a 10-digit Indian mobile number starting with 6, 7, 8 or 9.' : 'Enter your mobile number without the country code, for example ' + (SAMPLE[iso] || '7400 123456') + '.';
+        phone.focus(); return;
+      }
+      var full = '+' + BY_ISO[iso][2] + digits;
+
+      var data = new URLSearchParams();
+      data.set('form-name', 'waitlist');
+      data.set('source', form.dataset.source);
+      data.set('contact', mode);
+      data.set('email', mode === 'email' ? email.value.trim() : '');
+      data.set('phone', mode === 'phone' ? full : '');
+      data.set('dial', mode === 'phone' ? '+' + BY_ISO[iso][2] : '');
+      data.set('country', mode === 'phone' ? iso : REGION);
+      data.set('device', (form.querySelector('input[name="device"]:checked') || {}).value || '');
+      data.set('company', form.querySelector('input[name="company"]').value);
+
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true; btn.textContent = 'Joining…';
+      var done = function () {
+        try { localStorage.setItem('pace-waitlist', '1'); } catch (e) {}
+        var how = mode === 'email' ? 'We’ll email ' + email.value.trim() + ' once, when Pace is ready to download.' : 'We’ll message ' + full + ' once, when Pace is ready to download.';
+        if (LOCAL) how += ' (Preview on this computer: nothing was saved. Sign-ups are stored once the site is live.)';
+        document.querySelectorAll('form.join').forEach(function (f) { showDone(f, f === form ? how : null); });
+      };
+      if (LOCAL) { setTimeout(done, 500); return; }
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data.toString() })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); done(); })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = 'Join the waitlist';
+          err.textContent = 'That didn’t go through. Check your connection and try again.';
+        });
+    });
+  });
+})();
+</script>
+</body>
+</html>
