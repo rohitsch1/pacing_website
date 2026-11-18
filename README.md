@@ -55,6 +55,6 @@ Privacy: visitors in the EU, EEA, UK and Switzerland see a short "Can we count y
 
 ## Motion and credits
 
-- Animations: [GSAP](https://gsap.com) 3.13 with ScrollTrigger and SplitText, smooth scrolling by [Lenis](https://lenis.darkroom.engineering), all loaded from jsDelivr. Visitors who turn on "reduce motion" on their phone or computer get the page without animation.
+- Animations: [GSAP](https://gsap.com) 3.13 with ScrollTrigger and SplitText, smooth scrolling by [Lenis](https://lenis.darkroom.engineering), served from this site (`assets/vendor/`) so content blockers and Safari privacy settings don't stop them. Visitors with Reduce Motion turned on get a gentle version: fades instead of sliding, tilting, parallax and smooth scrolling; the product demos still play.
 - Sign-up confetti: "success confetti" by Deepesh Reddy from [LottieFiles](https://lottiefiles.com/free-animation/success-confetti-f5PdexvrBK), used under the Lottie Simple License, played with lottie-web.
 - Font: Plus Jakarta Sans (Google Fonts).

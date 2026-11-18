@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#0E3C47">
 <link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 96 96' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='96' height='96' rx='24' fill='%230E3C47'/%3E%3Cpath d='M18 64a30 30 0 0 1 60 0' fill='none' stroke='%2324606F' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M18 64a30 30 0 0 1 47-24.7' fill='none' stroke='%236EE0AE' stroke-width='8' stroke-linecap='round'/%3E%3Ccircle cx='65' cy='39.3' r='9' fill='%23E8B04B' stroke='%230E3C47' stroke-width='4'/%3E%3Cpath d='M14 76h68' stroke='%23EEF6F5' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 <script>
-  (function () { try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('anim'); setTimeout(function () { if (!window.__paceAnimated) document.documentElement.classList.remove('anim'); }, 3000); } } catch (e) {} })();
+  (function () { try { document.documentElement.classList.add('anim'); setTimeout(function () { if (!window.__paceAnimated) document.documentElement.classList.remove('anim'); }, 3000); } catch (e) {} })();
 </script>
 <script>
   /* Analytics: paste your Google Analytics 4 Measurement ID here (looks like G-AB12CD34EF).
@@ -1032,10 +1032,10 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
 })();
 </script>
 <div id="confetti" hidden aria-hidden="true"><div id="confetti-box"></div></div>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/SplitText.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
 <script>
 /* Motion: GSAP + ScrollTrigger + SplitText, Lenis smooth scrolling, Lottie confetti on sign-up.
    Everything is visible without this script; it only adds movement. */
@@ -1052,7 +1052,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
     lottieReady = new Promise(function (res, rej) {
       if (window.lottie) return res(window.lottie);
       var sc = document.createElement('script');
-      sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js';
+      sc.src = 'assets/vendor/lottie_light.min.js';
       sc.onload = function () { res(window.lottie); }; sc.onerror = rej;
       document.head.appendChild(sc);
     });
@@ -1120,7 +1120,32 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
   track.innerHTML = html + html + html + html;
 
   if ('scrollRestoration' in history && !location.hash) history.scrollRestoration = 'manual';
-  if (reduce || !window.gsap || !window.ScrollTrigger) { root.classList.remove('anim'); return; }
+  if (!window.gsap || !window.ScrollTrigger) { root.classList.remove('anim'); return; }
+  /* Reduce Motion is on: keep the page alive with fades, but drop movement (slides, tilts, zooms,
+     parallax, smooth scroll, the moving ticker). The two product demos keep playing (data: 'keep'). */
+  if (reduce) {
+    var MOTION = ['x', 'y', 'xPercent', 'yPercent', 'rotate', 'rotation', 'rotateX', 'rotateY', 'rotateZ', 'scale', 'scaleX', 'scaleY', 'skewX', 'skewY'];
+    var calm = function (v, isFrom) {
+      if (!v || typeof v !== 'object') return v;
+      var out = {}, moved = false;
+      for (var k in v) { if (MOTION.indexOf(k) >= 0) moved = true; else out[k] = v[k]; }
+      if (moved && isFrom && !('opacity' in out)) out.opacity = 0;
+      if (out.ease && /elastic|back|bounce/.test(out.ease)) out.ease = 'power1.out';
+      return out;
+    };
+    var patch = function (obj) {
+      ['from', 'to', 'fromTo'].forEach(function (m) {
+        var orig = obj[m];
+        obj[m] = function (t, a, b, c) {
+          if (this && this.data === 'keep') return orig.apply(this, arguments);
+          if (m === 'fromTo') return orig.call(this, t, calm(a, true), calm(b, false), c);
+          return orig.call(this, t, calm(a, m === 'from'), b);
+        };
+      });
+    };
+    patch(gsap);
+    patch(gsap.core.Timeline.prototype);
+  }
   window.__paceAnimated = true;
   root.classList.add('gsap-on');
   gsap.registerPlugin(ScrollTrigger);
@@ -1128,7 +1153,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
 
   /* ---------- smooth scrolling ---------- */
   var lenis = null;
-  if (window.Lenis && !matchMedia('(pointer: coarse)').matches) {
+  if (!reduce && window.Lenis && !matchMedia('(pointer: coarse)').matches) {
     lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
     window.paceLenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
@@ -1146,7 +1171,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
   }
 
   function splitLines(el) {
-    if (!window.SplitText) return null;
+    if (reduce || !window.SplitText) return null;
     return SplitText.create(el, { type: 'lines,words', mask: 'lines', linesClass: 'line-mask' });
   }
 
@@ -1185,7 +1210,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
     }
     // idle float + pointer tilt
     gsap.to('#hero-demo .phone', { y: -12, duration: 3, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2 });
-    if (matchMedia('(pointer: fine)').matches) {
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
       var demo = document.getElementById('hero-demo');
       var rx = gsap.quickTo(demo, 'rotateY', { duration: 0.8, ease: 'power3' });
       var ry = gsap.quickTo(demo, 'rotateX', { duration: 0.8, ease: 'power3' });
@@ -1274,7 +1299,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
     /* ---------- share or snap ---------- */
     gsap.set('#sheet', { yPercent: 130 });
     gsap.set('.added', { yPercent: -140 });
-    var shareTl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, paused: true, defaults: { ease: 'power3.out' } });
+    var shareTl = gsap.timeline({ data: 'keep', repeat: -1, repeatDelay: 1.2, paused: true, defaults: { ease: 'power3.out' } });
     shareTl
       .fromTo('#cap-share .pay-screen', { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6 })
       .fromTo('#cap-share .pay-tick', { scale: 0 }, { scale: 1, duration: 0.5, ease: 'back.out(3)' }, '<0.2')
@@ -1287,7 +1312,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
       .to({}, { duration: 1.6 })
       .to('#added-share', { yPercent: -140, duration: 0.4, ease: 'power3.in' })
       .set('#sheet-pace', { backgroundColor: 'transparent', scale: 1 });
-    var scanTl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, paused: true, defaults: { ease: 'power3.out' } });
+    var scanTl = gsap.timeline({ data: 'keep', repeat: -1, repeatDelay: 1.2, paused: true, defaults: { ease: 'power3.out' } });
     scanTl
       .fromTo('#receipt', { y: 40, rotate: -8, opacity: 0 }, { y: 0, rotate: -3, opacity: 1, duration: 0.8 })
       .fromTo('#scanline', { top: '0%', opacity: 1 }, { top: '100%', duration: 1.4, ease: 'sine.inOut' })
@@ -1322,7 +1347,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
     gsap.from('.final .join', { y: 50, scale: 0.96, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '.final .join', start: 'top 90%' } });
 
     /* ---------- magnetic buttons ---------- */
-    if (matchMedia('(pointer: fine)').matches) {
+    if (!reduce && matchMedia('(pointer: fine)').matches) {
       document.querySelectorAll('.btn-mint').forEach(function (b) {
         var mx = gsap.quickTo(b, 'x', { duration: 0.5, ease: 'power3' }), my = gsap.quickTo(b, 'y', { duration: 0.5, ease: 'power3' });
         b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * 0.25); my((e.clientY - r.top - r.height / 2) * 0.35); });
