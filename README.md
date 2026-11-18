@@ -50,3 +50,9 @@ What gets tracked:
 **Conversion rate** = `generate_lead` count ÷ users. GA4 shows it under **Reports → Engagement → Key events** (the "Key event rate" column). For a step-by-step drop-off view, use **Explore → Funnel exploration** with the steps `page_view` → `waitlist_start` → `generate_lead`.
 
 Privacy: visitors in the EU, EEA, UK and Switzerland see a short "Can we count your visit?" bar and are only counted if they tap Allow. Everyone else is counted by default and can opt out with **Analytics choices** in the footer. Ads features are always off. To test events on your own computer, open `http://localhost:4321/?debug_analytics=1` and watch GA4's **Admin → DebugView**.
+
+## Motion and credits
+
+- Animations: [GSAP](https://gsap.com) 3.13 with ScrollTrigger and SplitText, smooth scrolling by [Lenis](https://lenis.darkroom.engineering), all loaded from jsDelivr. Visitors who turn on "reduce motion" on their phone or computer get the page without animation.
+- Sign-up confetti: "success confetti" by Deepesh Reddy from [LottieFiles](https://lottiefiles.com/free-animation/success-confetti-f5PdexvrBK), used under the Lottie Simple License, played with lottie-web.
+- Font: Plus Jakarta Sans (Google Fonts).
