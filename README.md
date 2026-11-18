@@ -1,6 +1,6 @@
-# Pace website
+# Daysure website
 
-Waitlist site for Pace, the daily spending allowance app. Plain HTML, no build step.
+Waitlist site for Daysure, the daily spending allowance app. Plain HTML, no build step.
 
 - `index.html`: the landing page with a live demo of the daily limit and two waitlist forms (email, or a mobile number with any country code, plus Android or iPhone).
 

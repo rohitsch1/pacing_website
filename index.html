@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pace — your daily spending number</title>
+<title>Daysure — your daily spending number</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Pace sets your bills, EMIs and savings aside, then tells you each morning exactly how much you can spend today. Join the waitlist.">
-<meta property="og:title" content="Pace — know what you can spend today">
-<meta property="og:description" content="One number a day. Spend more today and Pace quietly adjusts tomorrow, so you never find out on the 28th that the money's gone.">
+<meta name="description" content="Daysure sets your bills, EMIs and savings aside, then tells you each morning exactly how much you can spend today. Join the waitlist.">
+<meta property="og:title" content="Daysure — know what you can spend today">
+<meta property="og:description" content="One number a day. Spend more today and Daysure quietly adjusts tomorrow, so you never find out on the 28th that the money's gone.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0E3C47">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%230E3C47'/%3E%3Ccircle cx='24' cy='24' r='13' fill='none' stroke='%2324606F' stroke-width='5'/%3E%3Cpath d='M24 11 A13 13 0 0 1 36.4 28' fill='none' stroke='%236EE0AE' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg viewBox='0 0 96 96' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='96' height='96' rx='24' fill='%230E3C47'/%3E%3Cpath d='M18 64a30 30 0 0 1 60 0' fill='none' stroke='%2324606F' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M18 64a30 30 0 0 1 47-24.7' fill='none' stroke='%236EE0AE' stroke-width='8' stroke-linecap='round'/%3E%3Ccircle cx='65' cy='39.3' r='9' fill='%23E8B04B' stroke='%230E3C47' stroke-width='4'/%3E%3Cpath d='M14 76h68' stroke='%23EEF6F5' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
 <script>
   (function () { try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('anim'); setTimeout(function () { if (!window.__paceAnimated) document.documentElement.classList.remove('anim'); }, 3000); } } catch (e) {} })();
 </script>
@@ -143,7 +143,7 @@ html.gsap-on .sheet { display: block; }
 .sheet-apps span { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 2px; border-radius: 12px; }
 .sheet-apps i { width: 40px; height: 40px; border-radius: 12px; background: #EAE6DD; display: block; }
 .sheet-apps .pace-app i { background: none; }
-.sheet-apps .pace-app svg { width: 40px; height: 40px; }
+.sheet-apps .pace-app svg { width: 40px; height: 40px; border-radius: 12px; }
 .added { position: absolute; left: 14px; right: 14px; top: 14px; display: flex; align-items: center; gap: 10px; background: #fff; color: #0E3C47; border-radius: 16px; padding: 10px 12px; box-shadow: 0 16px 30px -14px rgba(0,0,0,.5); }
 .added > span:nth-child(2) { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .added small { font-size: 11px; color: #6C7C80; }
@@ -165,7 +165,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--harbor) 92%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,.06); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--on-dark); font: 800 24px/1 var(--display); letter-spacing: -0.04em; }
-.brand svg { width: 30px; height: 30px; flex: none; }
+.brand svg { width: 32px; height: 32px; flex: none; border-radius: 8px; }
 .top nav { display: flex; align-items: center; gap: 22px; }
 .top nav a.link { color: var(--on-dark-muted); text-decoration: none; font-size: 15px; font-weight: 500; }
 .top nav a.link:hover { color: var(--on-dark); }
@@ -340,7 +340,7 @@ section.band { padding-block: 96px; }
 footer { border-top: 1px solid var(--line); padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px)); color: var(--faint); font-size: 14px; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; }
 footer .brand { color: var(--fg); font-size: 18px; }
-footer .brand svg { width: 24px; height: 24px; }
+footer .brand svg { width: 26px; height: 26px; border-radius: 7px; }
 footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
 .consent { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .consent .card { max-width: 720px; margin: 0 auto; background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.45); display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; }
@@ -355,12 +355,12 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Pace home">
-      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#0B3038"/><circle cx="24" cy="24" r="13" fill="none" stroke="#24606F" stroke-width="5"/><path d="M24 11 A13 13 0 0 1 36.4 28" fill="none" stroke="#6EE0AE" stroke-width="5" stroke-linecap="round"/></svg>
-      Pace
+    <a class="brand" href="#top" aria-label="Daysure home">
+      <svg viewBox="0 0 96 96" aria-hidden="true"><rect width="96" height="96" rx="24" fill="#155060"/><path d="M18 64a30 30 0 0 1 60 0" fill="none" stroke="#24606F" stroke-width="8" stroke-linecap="round"/><path d="M18 64a30 30 0 0 1 47-24.7" fill="none" stroke="#6EE0AE" stroke-width="8" stroke-linecap="round"/><circle cx="65" cy="39.3" r="9" fill="#E8B04B" stroke="#155060" stroke-width="4"/><path d="M14 76h68" stroke="#EEF6F5" stroke-width="6" stroke-linecap="round"/></svg>
+      Daysure
     </a>
     <nav aria-label="Main">
-      <a class="link" href="#problem">Why Pace</a>
+      <a class="link" href="#problem">Why Daysure</a>
       <a class="link" href="#how">How it works</a>
       <a class="link" href="#faq">FAQ</a>
       <a class="btn btn-mint btn-small" href="#join">Join the waitlist</a>
@@ -375,7 +375,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
       <div>
         <p class="eyebrow a-hide" data-hero>Coming soon to Android &amp; iPhone</p>
         <h1 id="hero-title" class="a-hide">Know what you can spend <em>today.<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path id="underline" d="M3 14 C 50 4, 120 4, 197 10"/></svg></em> Not on the 28th.</h1>
-        <p class="lede a-hide" data-hero>Pace takes your salary, <span data-intl="sets aside rent, loan payments, bills and savings,">sets aside rent, EMIs, bills and savings,</span> and turns what's left into one number for each day. Spend a little more today and tomorrow quietly adjusts, so the month never surprises you at the end.</p>
+        <p class="lede a-hide" data-hero>Daysure takes your salary, <span data-intl="sets aside rent, loan payments, bills and savings,">sets aside rent, EMIs, bills and savings,</span> and turns what's left into one number for each day. Spend a little more today and tomorrow quietly adjusts, so the month never surprises you at the end.</p>
 
         <form class="join a-hide" data-hero id="join" name="waitlist" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="company" novalidate data-source="hero">
           <input type="hidden" name="form-name" value="waitlist">
@@ -446,7 +446,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
           </div>
           <p class="reply" id="reply">All good. Weekends get a bigger share because days off usually cost more.</p>
         </div>
-        <p class="caption">Drag the slider. This is how Pace adjusts the days ahead.</p>
+        <p class="caption">Drag the slider. This is how Daysure adjusts the days ahead.</p>
       </div>
     </div>
   </section>
@@ -459,8 +459,8 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">The month-end surprise</p>
-        <h2 id="problem-title">Budget apps tell you after the money's gone. Pace tells you <em>the same day.</em></h2>
-        <p>A monthly budget only says "you overspent" once it's too late to change anything. Pace checks every day against a daily limit, so you see it on day 4, while there are still 26 days to fix it.</p>
+        <h2 id="problem-title">Budget apps tell you after the money's gone. Daysure tells you <em>the same day.</em></h2>
+        <p>A monthly budget only says "you overspent" once it's too late to change anything. Daysure checks every day against a daily limit, so you see it on day 4, while there are still 26 days to fix it.</p>
       </div>
 
       <div class="months">
@@ -470,8 +470,8 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
           <div class="axis" aria-hidden="true"><span>Payday</span><span>Day 15</span><span>Day 30</span></div>
           <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 8v5m0 3.5v.01M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span><b>Day 26:</b> "You've spent <span data-amt="6200">₹6,200</span> more than planned." Four days left, and the money's already gone.</span></p>
         </article>
-        <article class="month pace" aria-label="The same month with Pace">
-          <header><h3>With Pace</h3><span>A number every morning. Small fixes as you go.</span></header>
+        <article class="month pace" aria-label="The same month with Daysure">
+          <header><h3>With Daysure</h3><span>A number every morning. Small fixes as you go.</span></header>
           <div class="days" id="pace-days" aria-hidden="true"></div>
           <div class="axis" aria-hidden="true"><span>Payday</span><span>Day 15</span><span>Day 30</span></div>
           <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span><b>Day 4:</b> "You went <span data-amt="900">₹900</span> over today. I've spread it out, so every day left is <span data-amt="35">₹35</span> lighter." You end the month on plan.</span></p>
@@ -484,8 +484,8 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
   <section class="story" id="story" aria-labelledby="story-title">
     <div class="wrap story-grid">
       <div class="story-text">
-        <p class="eyebrow">One month with Pace</p>
-        <h2 id="story-title" class="sr">One month with Pace, day by day</h2>
+        <p class="eyebrow">One month with Daysure</p>
+        <h2 id="story-title" class="sr">One month with Daysure, day by day</h2>
         <div class="st-list">
           <article class="st" data-step="0">
             <span class="st-day">Day 1 · Payday</span>
@@ -534,7 +534,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
       <div class="head">
         <p class="eyebrow">No typing</p>
         <h2 id="capture-title">Stop typing in your spends. <em>Share it or snap it.</em></h2>
-        <p>Pace reads the amount, who you paid and when, then adds it for you. You just check it and tap once.</p>
+        <p>Daysure reads the amount, who you paid and when, then adds it for you. You just check it and tap once.</p>
       </div>
       <div class="cap-grid">
         <article class="cap" id="cap-share">
@@ -550,14 +550,14 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
               <small>Share to</small>
               <div class="sheet-apps">
                 <span><i></i>Messages</span><span><i></i>Mail</span>
-                <span class="pace-app" id="sheet-pace"><i><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#0E3C47"/><circle cx="24" cy="24" r="13" fill="none" stroke="#24606F" stroke-width="5"/><path d="M24 11 A13 13 0 0 1 36.4 28" fill="none" stroke="#6EE0AE" stroke-width="5" stroke-linecap="round"/></svg></i>Pace</span>
+                <span class="pace-app" id="sheet-pace"><i><svg viewBox="0 0 96 96" aria-hidden="true"><rect width="96" height="96" rx="24" fill="#0E3C47"/><path d="M18 64a30 30 0 0 1 60 0" fill="none" stroke="#24606F" stroke-width="8" stroke-linecap="round"/><path d="M18 64a30 30 0 0 1 47-24.7" fill="none" stroke="#6EE0AE" stroke-width="8" stroke-linecap="round"/><circle cx="65" cy="39.3" r="9" fill="#E8B04B" stroke="#0E3C47" stroke-width="4"/><path d="M14 76h68" stroke="#EEF6F5" stroke-width="6" stroke-linecap="round"/></svg></i>Daysure</span>
                 <span><i></i>Drive</span>
               </div>
             </div>
             <div class="added" id="added-share"><span class="dot">FO</span><span><b data-intl="Corner Café">Swiggy</b><small>Food · just now</small></span><b class="num" data-amt="-380">−₹380</b></div>
           </div>
           <h3>Paid in another app? Tap Share.</h3>
-          <p>On the payment screen in <span data-us="Venmo, Cash App, PayPal or Zelle" data-intl="PayPal, Apple Pay or your bank app">GPay, PhonePe, Paytm or any UPI app</span>, tap Share and pick Pace. The spend is read and added in one tap.</p>
+          <p>On the payment screen in <span data-us="Venmo, Cash App, PayPal or Zelle" data-intl="PayPal, Apple Pay or your bank app">GPay, PhonePe, Paytm or any UPI app</span>, tap Share and pick Daysure. The spend is read and added in one tap.</p>
         </article>
         <article class="cap" id="cap-scan">
           <div class="cap-stage" aria-hidden="true">
@@ -574,7 +574,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
             <div class="added" id="added-scan"><span class="dot gr">GR</span><span><b>Fresh Mart</b><small>Groceries · read from receipt</small></span><b class="num" data-amt="-1240">−₹1,240</b></div>
           </div>
           <h3>Got a paper bill? Snap it.</h3>
-          <p>Take a photo of any receipt or invoice and share it to Pace. It finds the total, the shop and the date for you.</p>
+          <p>Take a photo of any receipt or invoice and share it to Daysure. It finds the total, the shop and the date for you.</p>
         </article>
       </div>
     </div>
@@ -591,7 +591,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
         <article class="step">
           <span class="n">1</span>
           <h3>Bills and savings go aside first</h3>
-          <p data-intl="Tell Pace your take-home pay, rent, loan payments, bills and how much you want to save. Rough numbers are fine.">Tell Pace your take-home pay, rent, EMIs, bills and how much you want to save. Rough numbers are fine.</p>
+          <p data-intl="Tell Daysure your take-home pay, rent, loan payments, bills and how much you want to save. Rough numbers are fine.">Tell Daysure your take-home pay, rent, EMIs, bills and how much you want to save. Rough numbers are fine.</p>
           <div class="box num">
             <div class="ln"><span>Salary</span><span data-amt="80000">₹80,000</span></div>
             <div class="ln"><span data-intl="Rent, bills, loans">Rent, bills, EMIs</span><span data-amt="-33000">−₹33,000</span></div>
@@ -612,8 +612,8 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
         </article>
         <article class="step">
           <span class="n">3</span>
-          <h3>Paid in another app? Share it to Pace</h3>
-          <p data-us="After paying with Venmo, Cash App, PayPal or Zelle, tap Share on the payment screen and pick Pace. It reads the amount and adds it in one tap. No typing." data-intl="After paying in your bank or payment app, tap Share on the receipt screen and pick Pace. It reads the amount and adds it in one tap. No typing.">After paying on GPay or PhonePe, tap Share on the payment screen and pick Pace. It reads the amount and adds it in one tap. No typing.</p>
+          <h3>Paid in another app? Share it to Daysure</h3>
+          <p data-us="After paying with Venmo, Cash App, PayPal or Zelle, tap Share on the payment screen and pick Daysure. It reads the amount and adds it in one tap. No typing." data-intl="After paying in your bank or payment app, tap Share on the receipt screen and pick Daysure. It reads the amount and adds it in one tap. No typing.">After paying on GPay or PhonePe, tap Share on the payment screen and pick Daysure. It reads the amount and adds it in one tap. No typing.</p>
           <div class="box share">
             <span class="app" data-us="PAY" data-intl="PAY">UPI</span><span class="arrow">→</span><span>Share</span><span class="arrow">→</span><span class="app" style="background:var(--mint);color:#0B3038">P</span>
             <span style="margin-left:auto;font-weight:600" class="num"><span data-amt="380">₹380</span> added</span>
@@ -635,7 +635,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
         <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Overspend? Tomorrow adjusts</h3><p>No red alerts and no guilt. The extra is spread over the days left.</p></div>
         <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/></svg>Paybacks and refunds count</h3><p>A friend pays you back for dinner? Every day left gets a little more.</p></div>
         <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span data-intl="Loans that end on time">EMIs that end on time</span></h3><p>Loans count down and drop off your plan the month they're paid off.</p></div>
-        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>Goals that fill themselves</h3><p>A new phone by May? Pace sets the right amount aside each month.</p></div>
+        <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>Goals that fill themselves</h3><p>A new phone by May? Daysure sets the right amount aside each month.</p></div>
         <div><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>A nudge at 8:30</h3><p>Your number each morning and a 5-second check-in at night. Off whenever you like.</p></div>
       </div>
     </div>
@@ -647,7 +647,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
       <div class="privacy">
         <div>
           <h2 id="privacy-title">We never ask for your <em>bank password.</em></h2>
-          <p>Pace doesn't connect to your bank or read your SMS. You type rough amounts once, and share payment screens when you want to. Everything stays on your phone.</p>
+          <p>Daysure doesn't connect to your bank or read your SMS. You type rough amounts once, and share payment screens when you want to. Everything stays on your phone.</p>
         </div>
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-intl="No bank login, card number or PIN, ever">No UPI PIN, card number or net-banking login, ever</span></li>
@@ -663,12 +663,12 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
     <div class="wrap">
       <div class="head"><p class="eyebrow">Questions</p><h2 id="faq-title">Before you <em>join</em></h2></div>
       <div class="faq">
-        <details><summary>When will Pace launch?</summary><p>We're finishing testing now. The Android app comes first on Google Play, with iPhone after. Pace works in any country and currency. Everyone on the waitlist hears first, with one message, no newsletter.</p></details>
-        <details><summary>How is this different from a budgeting app?</summary><p>Most budgeting apps show a monthly total and warn you when it's used up, usually near the end of the month. Pace gives you a daily limit, so you know on the day itself, and it re-spreads any overspend across the days left.</p></details>
-        <details><summary>Which payment apps work with Pace?</summary><p>Any app that can share its payment screen or a screenshot. Pace recognises these by name: in India, Google Pay, PhonePe, Paytm, BHIM, CRED, Amazon Pay, WhatsApp Pay and the main banks such as HDFC, ICICI, SBI and Axis. Elsewhere, Venmo, Cash App, PayPal, Zelle, Apple Pay, Google Wallet, Chime and banks such as Chase, Bank of America, Wells Fargo, Capital One and Amex. It reads amounts in rupees, dollars, euros, pounds and dirhams. Paper bills and receipts work too: take a photo and share it to Pace.</p></details>
-        <details><summary>Does Pace connect to my bank account?</summary><p>No. You enter rough amounts for income and bills, and add spending by typing it or sharing a payment screen from your <span data-intl="bank or payment app">UPI app</span>. We never ask for bank logins, PINs or card details.</p></details>
-        <details><summary>Will it cost anything?</summary><p>Pace is free while it's in early access, including every Plus feature. People on the waitlist get early access first.</p></details>
-        <details><summary>What do you do with my email or number?</summary><p>We use it only to tell you when Pace is ready to download. We don't share it or sell it, and you can ask us to delete it at any time.</p></details>
+        <details><summary>When will Daysure launch?</summary><p>We're finishing testing now. The Android app comes first on Google Play, with iPhone after. Daysure works in any country and currency. Everyone on the waitlist hears first, with one message, no newsletter.</p></details>
+        <details><summary>How is this different from a budgeting app?</summary><p>Most budgeting apps show a monthly total and warn you when it's used up, usually near the end of the month. Daysure gives you a daily limit, so you know on the day itself, and it re-spreads any overspend across the days left.</p></details>
+        <details><summary>Which payment apps work with Daysure?</summary><p>Any app that can share its payment screen or a screenshot. Daysure recognises these by name: in India, Google Pay, PhonePe, Paytm, BHIM, CRED, Amazon Pay, WhatsApp Pay and the main banks such as HDFC, ICICI, SBI and Axis. Elsewhere, Venmo, Cash App, PayPal, Zelle, Apple Pay, Google Wallet, Chime and banks such as Chase, Bank of America, Wells Fargo, Capital One and Amex. It reads amounts in rupees, dollars, euros, pounds and dirhams. Paper bills and receipts work too: take a photo and share it to Daysure.</p></details>
+        <details><summary>Does Daysure connect to my bank account?</summary><p>No. You enter rough amounts for income and bills, and add spending by typing it or sharing a payment screen from your <span data-intl="bank or payment app">UPI app</span>. We never ask for bank logins, PINs or card details.</p></details>
+        <details><summary>Will it cost anything?</summary><p>Daysure is free while it's in early access, including every Plus feature. People on the waitlist get early access first.</p></details>
+        <details><summary>What do you do with my email or number?</summary><p>We use it only to tell you when Daysure is ready to download. We don't share it or sell it, and you can ask us to delete it at any time.</p></details>
       </div>
     </div>
   </section>
@@ -677,7 +677,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
   <section class="band final" aria-labelledby="final-title" style="padding-top:0">
     <div class="wrap">
       <h2 id="final-title">Start next month <em>knowing your number.</em></h2>
-      <p>Join the waitlist and be first in line when Pace opens on Android and iPhone.</p>
+      <p>Join the waitlist and be first in line when Daysure opens on Android and iPhone.</p>
       <form class="join light" name="waitlist" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="company" novalidate data-source="footer">
         <input type="hidden" name="form-name" value="waitlist">
         <input type="hidden" name="source" value="footer">
@@ -719,9 +719,9 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
 
 <footer>
   <div class="wrap">
-    <a class="brand" href="#top"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#0E3C47"/><circle cx="24" cy="24" r="13" fill="none" stroke="#24606F" stroke-width="5"/><path d="M24 11 A13 13 0 0 1 36.4 28" fill="none" stroke="#6EE0AE" stroke-width="5" stroke-linecap="round"/></svg>Pace</a>
+    <a class="brand" href="#top"><svg viewBox="0 0 96 96" aria-hidden="true"><rect width="96" height="96" rx="24" fill="#0E3C47"/><path d="M18 64a30 30 0 0 1 60 0" fill="none" stroke="#24606F" stroke-width="8" stroke-linecap="round"/><path d="M18 64a30 30 0 0 1 47-24.7" fill="none" stroke="#6EE0AE" stroke-width="8" stroke-linecap="round"/><circle cx="65" cy="39.3" r="9" fill="#E8B04B" stroke="#0E3C47" stroke-width="4"/><path d="M14 76h68" stroke="#EEF6F5" stroke-width="6" stroke-linecap="round"/></svg>Daysure</a>
     <span>One number a day. A month that works.</span>
-    <span><button type="button" class="linkbtn" id="privacy-choices">Analytics choices</button> · © <span id="yr">2026</span> Pace</span>
+    <span><button type="button" class="linkbtn" id="privacy-choices">Analytics choices</button> · © <span id="yr">2026</span> Daysure</span>
   </div>
 </footer>
 
@@ -867,7 +867,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
   function showDone(form, how) {
     form.querySelector('.body').innerHTML =
       '<div class="done"><span class="tick" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
-      '<div><strong>You’re on the list.</strong><p>' + (how || 'We’ll message you once, when Pace is ready to download.') + '</p></div></div>';
+      '<div><strong>You’re on the list.</strong><p>' + (how || 'We’ll message you once, when Daysure is ready to download.') + '</p></div></div>';
   }
 
   document.querySelectorAll('form.join').forEach(function (form) {
@@ -940,7 +940,7 @@ footer .linkbtn { background: none; border: 0; padding: 0; font: inherit; color:
         try { localStorage.setItem('pace-waitlist', '1'); } catch (e) {}
         try { window.dispatchEvent(new CustomEvent('pace:joined')); } catch (e) {}
         paceTrack('generate_lead', { form_location: form.dataset.source, method: mode, country: mode === 'phone' ? iso : REGION, device: data.get('device') });
-        var how = mode === 'email' ? 'We’ll email ' + email.value.trim() + ' once, when Pace is ready to download.' : 'We’ll message ' + full + ' once, when Pace is ready to download.';
+        var how = mode === 'email' ? 'We’ll email ' + email.value.trim() + ' once, when Daysure is ready to download.' : 'We’ll message ' + full + ' once, when Daysure is ready to download.';
         if (LOCAL) how += ' (Preview on this computer: nothing was saved. Sign-ups are stored once the site is live.)';
         document.querySelectorAll('form.join').forEach(function (f) { showDone(f, f === form ? how : null); });
       };
